@@ -10,7 +10,7 @@ const publicationSchema=new mongoose.Schema({
     state:{type:String},
     publication_filter:{type:String},
     image_url:{type:String},
-    status:{type:String}
+    status:{type:Boolean}
 })
 
 

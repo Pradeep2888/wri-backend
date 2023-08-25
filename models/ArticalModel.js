@@ -10,7 +10,7 @@ const articleSchema=new mongoose.Schema({
     state:{type:String},
     event_type:{type:String},
     image_url:{type:String},
-    status:{type:String}
+    status:{type:Boolean}
 })
 
 

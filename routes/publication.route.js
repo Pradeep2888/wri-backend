@@ -1,6 +1,9 @@
 const express=require("express")
 const { publicationModel } = require("../models/PublicationModel")
 const publicationRoute=express.Router()
+const multer = require('multer');
+const fs = require('fs');
+const AWS = require('aws-sdk');
 
 
 
@@ -55,7 +58,7 @@ publicationRoute.post("/add",async(req,res)=>{
       publisher,
       publication_filter,
       state,
-      status:"false"
+      status:false
        })
 
        const result=await new_publication.save()
@@ -66,5 +69,91 @@ publicationRoute.post("/add",async(req,res)=>{
        console.log(err)
     } 
 })
+
+
+
+
+
+
+
+
+
+
+const AWSCredentials = ({
+  accessKeyId: 'AKIASCYJ2FQPFWWTQTLG',
+  secretAccessKey: '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',
+  region: 'ap-south-1',
+  bucketName: 'pradeep-bucket-2023'
+});
+
+
+const s3 = new AWS.S3({
+  accessKeyId: AWSCredentials.accessKeyId,
+  secretAccessKey: AWSCredentials.secretAccessKey
+});
+
+
+
+const upload = multer({ dest: 'uploads/' });
+
+publicationRoute.post('/upload/:id', upload.single('image'), (req, res) => {
+  const file = req.file;
+  const { id } = req.params
+
+  if (!file) {
+    return res.status(400).json({ message: 'No file uploaded.' });
+  }
+
+  const uploadParams = {
+    Bucket: "pradeep-bucket-2023",
+    Key: `${Date.now().toString()}.png`,
+    Body: fs.createReadStream(file.path),
+  };
+
+  s3.upload(uploadParams, async (err, data) => {
+    if (err) {
+      console.error('Error uploading to S3:', err);
+      return res.status(500).json({ message: 'Error uploading to S3.' });
+    }
+
+    else {
+      fs.unlinkSync(file.path);
+      try {
+        await publicationModel.findByIdAndUpdate({ _id: id }, { "$set": { image_url: data.Location } })
+        res.send({ message: 'File uploaded successfully.', imageUrl: data.Location })
+      }
+      catch (err) {
+        console.log("err")
+        res.send({ message: "Something went wrong please try again" })
+      }
+
+    }
+  });
+});
+
+
+
+publicationRoute.patch("/publish/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    await publicationModel.findByIdAndUpdate({ _id: id }, { "$set": { status: true } })
+    res.send({ message: "Data publish Successfully" })
+  }
+  catch (err) {
+    console.log(err)
+    res.send({ message: "Something went wrong please try again" })
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports={publicationRoute}

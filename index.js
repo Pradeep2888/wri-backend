@@ -6,12 +6,15 @@ const { requestRoute } = require("./routes/request.route")
 const { eventRoute } = require("./routes/event.route")
 const { articleRoute } = require("./routes/artical.route")
 const { publicationRoute } = require("./routes/publication.route")
+const { aws } = require("./config/aws")
 require("dotenv").config()
 
 
 const app=express()
 app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
+
 
 
 app.get("/",(req,res)=>{
@@ -30,6 +33,7 @@ app.use("/publication",publicationRoute)
 app.listen(8000,async()=>{
     try{
       await connection
+      // await aws
       console.log("connected with DB")
     }
     catch (err) {
