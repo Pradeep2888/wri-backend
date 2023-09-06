@@ -47,7 +47,6 @@ publicationRoute.post("/add",async(req,res)=>{
    }=req.body
 
 
-   console.log(req.body)
 
     try{
        const new_publication=new publicationModel({
