@@ -7,6 +7,7 @@ const { eventRoute } = require("./routes/event.route")
 const { articleRoute } = require("./routes/artical.route")
 const { publicationRoute } = require("./routes/publication.route")
 const { aws } = require("./config/aws")
+const { podcastRoute } = require("./routes/podcast.route")
 require("dotenv").config()
 
 
@@ -26,6 +27,7 @@ app.use("/request",requestRoute)
 app.use("/event",eventRoute)
 app.use("/article",articleRoute)
 app.use("/publication",publicationRoute)
+app.use("/podcast",podcastRoute)
 
 
 

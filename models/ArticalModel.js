@@ -4,7 +4,7 @@ const mongoose=require("mongoose")
 const articleSchema=new mongoose.Schema({
     heading:{type:String},
     resercher:{type:String},
-    event_manager:[{name:{type:String},email:{type:String},phone:{type:Number}}],
+    event_manager:[{name:{type:String},email:{type:String},phone:{type:String}}],
     article_publish_detail:[{newspaper:{type:String},date:{type:String},url:{type:String}}],
     discription:[{text:String,inputsAndCheckboxes:[{word:String,url:String,yellow:Boolean,black:Boolean}]}],
     state:{type:String},

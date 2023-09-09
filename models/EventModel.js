@@ -7,7 +7,7 @@ const eventSchema=new mongoose.Schema({
     start_time:{type:String},
     end_time:{type:String},
     agenda_url:{type:String},
-    event_manager:[{name:{type:String},email:{type:String},phone:{type:Number}}],
+    event_manager:[{name:{type:String},email:{type:String},phone:{type:String}}],
     discription:[{text:String,inputsAndCheckboxes:[{word:String,url:String,yellow:Boolean,black:Boolean}]}],
     video_url:[],
     report_url:[],
