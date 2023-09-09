@@ -28,16 +28,30 @@ podcastRoute.get("/", async(req, res) => {
     }
   })
 
+  podcastRoute.patch("/publish/:id", async (req, res) => {
+    const { id } = req.params
+  try {
+    await podcastModel.findByIdAndUpdate({ _id: id }, { "$set": { status: true } })
+    res.send({ message: "Data publish Successfully" })
+  }
+  catch (err) {
+    console.log(err)
+    res.send({ message: "Something went wrong please try again" })
+  }
+  })
+
 podcastRoute.post("/add", async (req, res) => {
-    const { episod_name, episod_url, filter_by, state, } = req.body
-    console.log(episod_name, episod_url, filter_by, state,)
+    const { episod_name, episod_url,episod_number, filter_by, state, } = req.body
+
 
     try {
         const new_podcast = new podcastModel({
             episod_name,
             episod_url,
+            episod_number,
             filter_by,
             state,
+            status:false,
         })
 
         const result = await new_podcast.save()
