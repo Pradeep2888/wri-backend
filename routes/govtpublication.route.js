@@ -117,7 +117,7 @@ govtpublicationRoute.post('/upload/:id', upload.single('image'), (req, res) => {
     }
 
     else {
-      fs.unlinkSync(file.path);
+      await fs.unlinkSync(file.path);
       try {
         await publicationModel.findByIdAndUpdate({ _id: id }, { "$set": { image_url: data.Location } })
         res.send({ message: 'File uploaded successfully.', imageUrl: data.Location })
