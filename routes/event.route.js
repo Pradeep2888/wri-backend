@@ -34,7 +34,8 @@ eventRoute.post("/add", async (req, res) => {
       state,
       event_type,
       report_url,
-      status: false
+      status: false,
+      image_url:""
     })
 
     const result = await new_event.save()
@@ -106,6 +107,7 @@ const upload = multer({ dest: 'uploads/' });
 eventRoute.post('/upload/:id', upload.single('image'), (req, res) => {
   const file = req.file;
   const { id } = req.params
+  console.log(id)
 
   if (!file) {
     return res.status(400).json({ message: 'No file uploaded.' });
@@ -126,8 +128,8 @@ eventRoute.post('/upload/:id', upload.single('image'), (req, res) => {
     else {
       fs.unlinkSync(file.path);
       try {
-        await eventModel.findByIdAndUpdate({ _id: id }, { "$set": { image_url: data.Location } })
-        res.send({ message: 'File uploaded successfully.', imageUrl: data.Location })
+        let a=await eventModel.findByIdAndUpdate({ _id: id }, { "$set": { image_url: data.Location } })
+        res.send({ message: 'File uploaded successfully.', imageUrl: "data.Location" })
       }
       catch (err) {
         console.log("err")
