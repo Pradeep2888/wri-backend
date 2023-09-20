@@ -41,12 +41,13 @@ podcastRoute.get("/", async(req, res) => {
   })
 
 podcastRoute.post("/add", async (req, res) => {
-    const { episod_name, episod_url,episod_number, filter_by, state, } = req.body
+    const { episod_name, episod_url,episod_number,episod_title, filter_by, state, } = req.body
 
 
     try {
         const new_podcast = new podcastModel({
             episod_name,
+            episod_title,
             episod_url,
             episod_number,
             filter_by,

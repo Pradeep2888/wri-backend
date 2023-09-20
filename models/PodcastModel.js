@@ -4,6 +4,7 @@ const mongoose=require("mongoose")
 const podcastSchema=new mongoose.Schema({
     episod_name:{type:String},
     episod_url:{type:String},
+    episod_title:{type:String},
     episod_number:{type:Number},
     filter_by:{type:String},
     state:{type:String},
