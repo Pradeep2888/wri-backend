@@ -48,6 +48,7 @@ podcastRoute.post("/add", async (req, res) => {
         const new_podcast = new podcastModel({
             episod_name,
             episod_title,
+            filter_by,
             episod_url,
             episod_number,
             filter_by,
